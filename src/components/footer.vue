@@ -2,7 +2,7 @@
   <div>
     <div class="text-center p-4 footer">
       <div class="text-center">
-        <a class="btn boton-footer-all" href="#" role="button"
+        <a @click="getAllPokemon" class="btn boton-footer-all" href="#" role="button"
           ><i class="fa fa-th-list" aria-hidden="true"></i> All</a
         >
         <a
@@ -27,6 +27,10 @@ export default {
     getFavorites() {
       this.$emit("selectFavorites");
     },
+
+    getAllPokemon(){
+      this.$emit("getAll");
+    }
   },
 };
 </script>

@@ -49,7 +49,10 @@
       </div>
     </div>
     <div class="row">
-      <footer-pokemon v-on:selectFavorites="selectFavorites"></footer-pokemon>
+      <footer-pokemon
+        v-on:selectFavorites="selectFavorites"
+        v-on:getAll="getAll"
+      ></footer-pokemon>
     </div>
     <div class="row">
       <div v-if="showModal">
@@ -155,14 +158,13 @@ export default {
     };
   },
   async mounted() {
+    await this.getListData();
     this.dataPokedex = this.getDataPokedex.map((x) => {
       return {
         pokemonName: x.name.toUpperCase(),
         favorite: false,
       };
     });
-
-    await this.getListData();
   },
   methods: {
     ...mapActions({
@@ -175,7 +177,7 @@ export default {
       this.dataPokedex[i].favorite = true;
 
       this.datalocalfavorite.push(this.dataPokedex[i]);
-    
+
       localStorage.favorites = JSON.stringify(this.datalocalfavorite);
 
       console.log(this.dataPokedex[i]);
@@ -185,6 +187,16 @@ export default {
     selectFavorites() {
       this.dataPokedex = [];
       this.dataPokedex = JSON.parse(localStorage.favorites);
+    },
+
+    async getAll() {
+      await this.getListData();
+      this.dataPokedex = this.getDataPokedex.map((x) => {
+        return {
+          pokemonName: x.name.toUpperCase(),
+          favorite: false,
+        };
+      });
     },
 
     async showInfo(name) {
@@ -257,7 +269,6 @@ export default {
 
   padding: 2rem 1rem;
 }
-
 
 .name-pokemon {
   margin-top: 10px;
